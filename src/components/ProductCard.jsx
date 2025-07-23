@@ -15,7 +15,7 @@ const ProductCard = ({ product }) => {
           </Badge>
         )}
         <Card.Img
-          src={`${import.meta.env.VITE_IMAGE_BASE_URL}/${product.thumbnail}`}
+          src={`${import.meta.env.VITE_IMAGE_BASE_URL}/${product.images[0]}`}
           style={{ height: 220, objectFit: "cover" }}
         />
       </div>
