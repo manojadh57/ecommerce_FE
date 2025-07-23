@@ -1,12 +1,21 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { CartProvider } from "./hooks/useCart.jsx";
+import AppNavbar from "./components/Navbar";
+import Home from "./pages/Home";
 
-function App() {
-  const [count, setCount] = useState(0);
+///error///
+const NotFound = () => <p className="text-center mt-5">404 – Page not found</p>;
 
-  return <></>;
-}
+const App = () => (
+  <CartProvider>
+    <BrowserRouter>
+      <AppNavbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
+  </CartProvider>
+);
 
 export default App;
