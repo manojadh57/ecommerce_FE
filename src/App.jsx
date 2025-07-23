@@ -1,21 +1,21 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { CartProvider } from "./hooks/useCart.jsx";
-import AppNavbar from "./components/Navbar";
-import Home from "./pages/Home";
+import AppNavbar from "./components/Navbar.jsx";
+import Home from "./pages/Home.jsx";
+import Login from "./pages/Login.jsx";
+import Signup from "./pages/Signup.jsx";
 
-///error///
 const NotFound = () => <p className="text-center mt-5">404 – Page not found</p>;
 
 const App = () => (
-  <CartProvider>
-    <BrowserRouter>
-      <AppNavbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
-  </CartProvider>
+  <BrowserRouter>
+    <AppNavbar />
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  </BrowserRouter>
 );
 
 export default App;

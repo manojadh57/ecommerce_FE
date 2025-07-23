@@ -2,38 +2,32 @@ import { toast } from "react-toastify";
 import { setUser, logout } from "./userSlice.js";
 import { postNewUser, loginUser, fetchProfile } from "./userAxios.js";
 
-//signnupp
-export const userSignupAction = (formObj) => async () => {
-  const pending = postNewUser(formObj);
-  toast.promise(pending, { pending: "Signing up…" });
-  return pending;
+export const userSignupAction = (obj) => async () => {
+  const p = postNewUser(obj);
+  toast.promise(p, { pending: "Signing up…" });
+  return p;
 };
 
-//login
-export const userSignInAction = (credObj) => async (dispatch) => {
+export const userSignInAction = (cred) => async (dispatch) => {
   try {
-    // login
-    const { accessJWT, refreshJWT } = await loginUser(credObj);
-
-    // save token
-    sessionStorage.setItem("accessJWT", accessJWT);
-    localStorage.setItem("refreshJWT", refreshJWT);
-
-    // fetch profile
-    const { user } = await fetchProfile();
-    dispatch(setUser(user));
-
-    toast.success("Login success");
-    return { status: "success" };
-  } catch (err) {
-    toast.error(err.message || "Invalid credentials");
+    const { status, message, accessJWT, refreshJWT } = await loginUser(cred);
+    toast[status](message);
+    if (status == "success") {
+      sessionStorage.setItem("accessJWT", accessJWT);
+      localStorage.setItem("refreshJWT", refreshJWT);
+      const { user } = await fetchProfile();
+      dispatch(setUser(user));
+      return { status: "success" };
+    } else {
+      return { status: "error" };
+    }
+  } catch (e) {
     return { status: "error" };
   }
 };
 
-//logout helper//
-export const userLogoutAction = () => (dispatch) => {
+export const userLogoutAction = () => (d) => {
   sessionStorage.clear();
   localStorage.clear();
-  dispatch(logout());
+  d(logout());
 };

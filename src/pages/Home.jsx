@@ -1,14 +1,2 @@
-import { Fragment } from "react";
-import ProductGrid from "./ProductGrid.jsx";
-import About from "../components/About.jsx";
-import Footer from "../components/Footer.jsx";
-
-const Home = () => (
-  <Fragment>
-    <ProductGrid />
-
-    <Footer />
-  </Fragment>
-);
-
+const Home = () => <h1 className="text-center mt-5">Welcome </h1>;
 export default Home;

@@ -86,7 +86,7 @@ const Signup = () => {
           value={form.password}
           onChange={handleChange}
           required
-          minLength={6}
+          minLength={3}
         />
 
         <Form.Control
@@ -97,7 +97,7 @@ const Signup = () => {
           value={form.confirmPassword}
           onChange={handleChange}
           required
-          minLength={6}
+          minLength={3}
         />
 
         <Button type="submit" variant="primary" className="w-100">

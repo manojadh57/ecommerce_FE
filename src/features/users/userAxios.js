@@ -16,7 +16,7 @@ export const loginUser = (credObj) =>
     data: credObj,
   });
 
-// ⬇xx /auth/profile  (private)
+////
 export const fetchProfile = () =>
   apiProcesser({
     method: "get",
