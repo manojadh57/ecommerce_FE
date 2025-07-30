@@ -1,33 +1,44 @@
 import { toast } from "react-toastify";
 import { setUser, logout } from "./userSlice.js";
-import { postNewUser, loginUser, fetchProfile } from "./userAxios.js";
+import { postNewUser, loginUser } from "./userAxios.js";
 
-export const userSignupAction = (obj) => async () => {
-  const p = postNewUser(obj);
+// SIGNUP ACTION
+export const userSignupAction = (userObj) => async () => {
+  const p = postNewUser(userObj);
   toast.promise(p, { pending: "Signing up…" });
   return p;
 };
 
+// LOGIN ACTION
 export const userSignInAction = (cred) => async (dispatch) => {
   try {
-    const { status, message, accessJWT, refreshJWT } = await loginUser(cred);
+    const { status, message, accessJWT, refreshJWT, user } = await loginUser(
+      cred
+    );
+
     toast[status](message);
-    if (status == "success") {
+
+    if (status === "success") {
+      // Save JWTs
       sessionStorage.setItem("accessJWT", accessJWT);
       localStorage.setItem("refreshJWT", refreshJWT);
-      const { user } = await fetchProfile();
+
+      // Update Redux store with user info
       dispatch(setUser(user));
+
       return { status: "success" };
     } else {
       return { status: "error" };
     }
   } catch (e) {
+    toast.error("Login failed. Please try again.");
     return { status: "error" };
   }
 };
 
-export const userLogoutAction = () => (d) => {
+// LOGOUT ACTION
+export const userLogoutAction = () => (dispatch) => {
   sessionStorage.clear();
   localStorage.clear();
-  d(logout());
+  dispatch(logout());
 };
