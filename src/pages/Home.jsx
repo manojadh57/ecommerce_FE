@@ -1,4 +1,3 @@
-//  src/pages/Home.jsx
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 import axios from "axios";
@@ -17,7 +16,6 @@ const Home = () => {
       try {
         const { data } = await axios.get(`${CUSTOMER_URL}products`);
 
-        /* ---------- accept any of the 3 common shapes ------------ */
         const list = Array.isArray(data)
           ? data // plain array
           : Array.isArray(data?.data)

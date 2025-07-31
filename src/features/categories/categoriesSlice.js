@@ -1,32 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { loadCategoriesTree } from "./categoriesAction";
 
-const initial = {
-  parents: [],
-  subsByParent: {}, // { parentId: [subCats] }
-  status: "idle",
-  error: null,
-};
-
-const slice = createSlice({
+const categoriesSlice = createSlice({
   name: "categories",
-  initialState: initial,
-  reducers: {
-    setParents: (s, { payload }) => {
-      s.parents = payload;
-    },
-    setSubs: (s, { payload }) => {
-      s.subsByParent[payload.parentId] = payload.subs;
-    },
-    setStatus: (s, { payload }) => {
-      s.status = payload;
-    },
-    setError: (s, { payload }) => {
-      s.error = payload;
-      s.status = "failed";
-    },
-    reset: () => initial,
+  initialState: {
+    parents: [],
+    subsByParent: {},
+    status: "idle",
+    error: null,
   },
+  reducers: {},
+  extraReducers: (builder) =>
+    builder
+      .addCase(loadCategoriesTree.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(loadCategoriesTree.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.parents = action.payload.parents;
+        state.subsByParent = action.payload.subsByParent;
+      })
+      .addCase(loadCategoriesTree.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      }),
 });
 
-export const { setParents, setSubs, setStatus, setError } = slice.actions;
-export default slice.reducer;
+export default categoriesSlice.reducer;
