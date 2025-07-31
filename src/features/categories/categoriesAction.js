@@ -4,8 +4,9 @@ import { getAllCategories, getSubCategories } from "../../helpers/axiosHelpers";
 export const loadCategoriesTree = () => async (dispatch) => {
   try {
     dispatch(setStatus("loading"));
-    const { categories = [] } = await getAllCategories();
+    const categories = (await getAllCategories()) || [];
     const parents = categories.filter((c) => !c.parent);
+
     dispatch(setParents(parents));
 
     await Promise.all(

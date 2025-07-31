@@ -1,7 +1,7 @@
 import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-/* ---- build absolute URL no matter what Mongo gives us ---- */
+//image//
 const BASE = (
   import.meta.env.VITE_IMAGE_BASE_URL || "http://localhost:8000"
 ).replace(/\/+$/, "");
@@ -10,8 +10,8 @@ const PLACEHOLDER = `${BASE}/assets/placeholder.png`;
 const imgUrl = (raw) => {
   if (!raw) return PLACEHOLDER;
   if (raw.startsWith("http")) return raw; // full URL
-  if (raw.startsWith("/")) return BASE + raw; // "/assets/…"
-  if (raw.startsWith("assets/")) return `${BASE}/${raw}`; // "assets/…"
+  if (raw.startsWith("/")) return BASE + raw; // assets
+  if (raw.startsWith("assets/")) return `${BASE}/${raw}`; // assets
   return `${BASE}/assets/${raw}`; // bare filename
 };
 

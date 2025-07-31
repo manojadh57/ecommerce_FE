@@ -11,13 +11,13 @@ export default function MainNavbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // 🔸 fire categories thunk once
+  //  fire categories thunk once
   useEffect(() => {
     dispatch(loadCategoriesTree());
   }, [dispatch]);
 
   const { parents, subsByParent } = useSelector((s) => s.categories);
-  const cartQty = 1; // wire to cart slice when built
+  const cartQty = 1;
 
   const ParentLink = ({ cat }) => {
     const kids = subsByParent[cat._id] || [];
@@ -38,7 +38,7 @@ export default function MainNavbar() {
 
   return (
     <>
-      {/* Row 1: logo + icons */}
+      {/* Row 1 */}
       <Navbar bg="white" variant="light" className="border-bottom">
         <Container fluid className="py-2">
           <Navbar.Brand as={Link} to="/">

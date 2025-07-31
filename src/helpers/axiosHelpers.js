@@ -1,19 +1,14 @@
 import axios from "axios";
 
-const rootURL = import.meta.env.VITE_BASE_URL; // e.g. http://localhost:8000/api/customer/v1/
+const rootURL = import.meta.env.VITE_BASE_URL;
 export const authEP = rootURL + "auth";
 export const categoriesEP = rootURL + "categories";
 export const productsEP = rootURL + "products";
 
-/* ------------------------------------------------------------------ */
-/*  JWT helpers                                                        */
-/* ------------------------------------------------------------------ */
+//jwt helper/
 const getAccessJWT = () => sessionStorage.getItem("accessJWT");
 const getRefreshJWT = () => localStorage.getItem("refreshJWT");
 
-/* ------------------------------------------------------------------ */
-/*  Generic request wrapper                                            */
-/* ------------------------------------------------------------------ */
 export const apiProcesser = async ({
   method = "get",
   url,
@@ -46,7 +41,6 @@ export const apiProcesser = async ({
   }
 };
 
-/* ------------------------------------------------------------------ */
 export const renewAccessJWT = async () => {
   const { accessJWT } = await apiProcesser({
     method: "get",
@@ -58,14 +52,14 @@ export const renewAccessJWT = async () => {
   return accessJWT;
 };
 
-/* ====================== CATEGORY REQUESTS ========================= */
+//categories//
 export const getAllCategories = () => apiProcesser({ url: categoriesEP });
 export const getCategoryById = (id) =>
   apiProcesser({ url: `${categoriesEP}/${id}` });
 export const getSubCategories = (parentId) =>
   apiProcesser({ url: `${categoriesEP}/${parentId}/sub-categories` });
 
-/* ====================== PRODUCT REQUESTS  ========================= */
+//products//
 export const getAllProducts = (q = "") => apiProcesser({ url: productsEP + q });
 export const getProductById = (id) =>
   apiProcesser({ url: `${productsEP}/${id}` });
