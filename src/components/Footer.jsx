@@ -2,67 +2,110 @@ import React from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { FaFacebookF, FaInstagram, FaPinterestP } from "react-icons/fa";
 
-const Footer = () => {
-  return (
-    <footer className="bg-dark text-light pt-5 border-top">
-      <Container>
-        {/* 3 Column Layout */}
-        <Row className="mb-4 text-center text-md-start">
-          <Col md={4}>
-            <h6 className="fw-bold mb-3">Shipping & Returns</h6>
-            <p className="mb-1">Store Policy</p>
-            <p className="mb-1">Payment Methods</p>
-          </Col>
-
-          <Col md={4}>
-            <h6 className="fw-bold mb-3">Contact</h6>
-            <p className="mb-1">Tel: 123-456-7890</p>
-            <a
-              href="mailto:info@mysite.com"
-              className="text-light text-decoration-underline"
-            >
-              info@mysite.com
+const Footer = () => (
+  <footer className="bg-dark text-light pt-5 border-top border-secondary">
+    <Container>
+      {/* Top Links & Info */}
+      <Row className="gy-4 text-center text-md-start">
+        {/* Policies */}
+        <Col md={4}>
+          <h6 className="fw-bold mb-3">Shipping & Returns</h6>
+          <p className="mb-1">
+            <a href="/shipping" className="text-light text-decoration-none">
+              Shipping & Returns
             </a>
-          </Col>
+          </p>
+          <p className="mb-1">
+            <a href="/policy" className="text-light text-decoration-none">
+              Store Policy
+            </a>
+          </p>
+          <p className="mb-1">
+            <a href="/payments" className="text-light text-decoration-none">
+              Payment Methods
+            </a>
+          </p>
+        </Col>
 
-          <Col md={4}>
-            <h6 className="fw-bold mb-3">Follow Us</h6>
-            <p className="mb-1">Facebook</p>
-            <p className="mb-1">Instagram</p>
-            <p className="mb-1">Pinterest</p>
-          </Col>
-        </Row>
+        {/* Contact */}
+        <Col md={4}>
+          <h6 className="fw-bold mb-3">Contact</h6>
+          <p className="mb-1">
+            Tel:{" "}
+            <a href="tel:1234567890" className="text-light">
+              123-456-7890
+            </a>
+          </p>
+          <p className="mb-1">
+            Email:{" "}
+            <a href="mailto:info@ausTECH.com" className="text-light">
+              info@ausTECH.com
+            </a>
+          </p>
+        </Col>
 
-        {/* Newsletter */}
-        <Row className="mt-4 justify-content-center text-center">
-          <Col md={8}>
-            <h6 className="mb-2">
-              Join our mailing list and never miss an update
-            </h6>
-            <Form className="d-flex gap-2 justify-content-center">
-              <Form.Control
-                type="email"
-                placeholder="Email *"
-                className="w-50"
-              />
-              <Button variant="light" className="fw-bold px-4">
-                Subscribe Now
-              </Button>
-            </Form>
-          </Col>
-        </Row>
+        {/* Social */}
+        <Col md={4}>
+          <h6 className="fw-bold mb-3">Follow Us</h6>
+          <div className="d-flex justify-content-center justify-content-md-start gap-3">
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener"
+              className="text-light fs-5"
+            >
+              <FaFacebookF />
+            </a>
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener"
+              className="text-light fs-5"
+            >
+              <FaInstagram />
+            </a>
+            <a
+              href="https://pinterest.com"
+              target="_blank"
+              rel="noopener"
+              className="text-light fs-5"
+            >
+              <FaPinterestP />
+            </a>
+          </div>
+        </Col>
+      </Row>
 
-        {/* Copyright */}
-        <Row className="mt-5 text-center">
-          <Col>
-            <p className="text-muted small mb-0">
-              © {new Date().getFullYear()} ausTECH. All rights reserved.
-            </p>
-          </Col>
-        </Row>
-      </Container>
-    </footer>
-  );
-};
+      {/* Newsletter */}
+      <Row className="mt-5 justify-content-center">
+        <Col lg={8} className="text-center">
+          <h6 className="mb-3">
+            Join our mailing list and never miss an update
+          </h6>
+          <Form className="d-flex justify-content-center">
+            <Form.Control
+              type="email"
+              placeholder="Email *"
+              className="me-2"
+              style={{ maxWidth: "300px" }}
+            />
+            <Button variant="light" className="fw-bold px-4">
+              Subscribe Now
+            </Button>
+          </Form>
+        </Col>
+      </Row>
+
+      {/* Bottom Copyright */}
+      <Row className="mt-5">
+        <Col className="text-center">
+          <small className="text-secondary">
+            © {new Date().getFullYear()} ausTECH. All rights reserved.
+          </small>
+        </Col>
+      </Row>
+    </Container>
+  </footer>
+);
 
 export default Footer;

@@ -6,6 +6,7 @@ import { Search, Person, Cart3 } from "react-bootstrap-icons";
 
 import logo from "../assets/logo.png";
 import { loadCategoriesTree } from "../features/categories/categoriesAction.js";
+import { userLogoutAction } from "../features/users/userAction.js";
 
 export default function MainNavbar() {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ export default function MainNavbar() {
     dispatch(loadCategoriesTree());
   }, [dispatch]);
 
+  const { user } = useSelector((store) => store.user);
   const { parents, subsByParent } = useSelector((s) => s.categories);
   const cartQty = 1;
 
@@ -47,7 +49,21 @@ export default function MainNavbar() {
 
           <div className="ms-auto d-flex align-items-center gap-4 fs-5">
             <Search role="button" />
-            <Person role="button" onClick={() => navigate("/login")} />
+            {user && user._id ? (
+              <>
+                "Logged In"{" "}
+                <button
+                  onClick={() => {
+                    dispatch(userLogoutAction());
+                  }}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <Person role="button" onClick={() => navigate("/login")} />
+            )}
+
             <div
               role="button"
               className="position-relative"
