@@ -41,6 +41,17 @@ export const apiProcesser = async ({
   }
 };
 
+//for sign up\
+export const signUpNewUserAPI = async (payload) => {
+  const obj = {
+    url: authEP + "/signup",
+    method: "post",
+    payload,
+  };
+  const result = await apiProcesser(obj);
+  console.log(result);
+};
+
 export const renewAccessJWT = async () => {
   const { accessJWT } = await apiProcesser({
     method: "get",
