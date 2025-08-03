@@ -24,3 +24,11 @@
 a:hover {
   color: var(--accent) !important;
 }
+
+footer p {
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+}
+footer h6 {
+  font-size: 1rem;
+}

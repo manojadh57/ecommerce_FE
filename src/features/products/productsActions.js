@@ -1,38 +1,35 @@
-import {
-  setProducts,
-  setSelected,
-  setStatus,
-  setError,
-} from "./productSlice.js";
-
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   getAllProducts,
   getProductById,
-  getProductsByCategory,
+  getProductsByCatId,
 } from "../../helpers/axiosHelpers";
 
-export const fetchProducts =
-  (categoryId = "") =>
-  async (dispatch) => {
+// ── Fetch list of products (optionally by category) ──
+export const fetchProducts = createAsyncThunk(
+  "products/fetchProducts",
+  async (categoryId = "", { rejectWithValue }) => {
     try {
-      dispatch(setStatus("loading"));
       const resp = categoryId
-        ? await getProductsByCategory(categoryId)
+        ? await getProductsByCatId(categoryId)
         : await getAllProducts();
-      dispatch(setProducts(resp.products || []));
-      dispatch(setStatus("succeeded"));
-    } catch (e) {
-      dispatch(setError(e?.message || "Failed to load products"));
-    }
-  };
 
-export const fetchSingleProduct = (id) => async (dispatch) => {
-  try {
-    dispatch(setStatus("loading"));
-    const resp = await getProductById(id);
-    dispatch(setSelected(resp.product));
-    dispatch(setStatus("succeeded"));
-  } catch (e) {
-    dispatch(setError(e?.message || "Failed to load product"));
+      return resp.products || [];
+    } catch (err) {
+      return rejectWithValue(err.message || "Failed to load products");
+    }
   }
-};
+);
+
+// ── Fetch a single product by ID ──
+export const fetchSingleProduct = createAsyncThunk(
+  "products/fetchSingleProduct",
+  async (id, { rejectWithValue }) => {
+    try {
+      const product = await getProductById(id);
+      return product;
+    } catch (err) {
+      return rejectWithValue(err.message || "Failed to load product");
+    }
+  }
+);

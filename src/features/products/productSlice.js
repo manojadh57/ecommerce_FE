@@ -1,30 +1,60 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { fetchProducts, fetchSingleProduct } from "./productsActions";
 
 const initialState = {
-  items: [], // list/grid data
-  selected: null, // single product page
+  items: [],
+  selected: null,
   status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null,
-  page: 1,
 };
 
 const productsSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
-    setProducts: (s, { payload }) => {
-      s.items = payload;
+    setProducts: (s, a) => {
+      s.items = a.payload;
     },
-    setSelected: (s, { payload }) => {
-      s.selected = payload;
+    setSelected: (s, a) => {
+      s.selected = a.payload;
     },
-    setStatus: (s, { payload }) => {
-      s.status = payload;
+    setStatus: (s, a) => {
+      s.status = a.payload;
     },
-    setError: (s, { payload }) => {
-      s.error = payload;
-      s.status = "failed";
+    setError: (s, a) => {
+      s.error = a.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      //list//
+      .addCase(fetchProducts.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(fetchProducts.fulfilled, (state, { payload }) => {
+        state.status = "succeeded";
+        state.items = payload;
+      })
+      .addCase(fetchProducts.rejected, (state, { payload }) => {
+        state.status = "failed";
+        state.error = payload;
+      })
+
+      // single//
+      .addCase(fetchSingleProduct.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+        state.selected = null;
+      })
+      .addCase(fetchSingleProduct.fulfilled, (state, { payload }) => {
+        state.status = "succeeded";
+        state.selected = payload;
+      })
+      .addCase(fetchSingleProduct.rejected, (state, { payload }) => {
+        state.status = "failed";
+        state.error = payload;
+      });
   },
 });
 

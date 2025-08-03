@@ -12,16 +12,14 @@ export const userSignupAction = (userObj) => async () => {
 // LOGIN ACTION
 export const userSignInAction = (cred) => async (dispatch) => {
   try {
-    const { status, message, accessJWT, refreshJWT, user } = await loginUser(
-      cred
-    );
+    const { status, message, tokens, user } = await loginUser(cred);
 
     toast[status](message);
 
     if (status === "success") {
       // Save JWTs
-      sessionStorage.setItem("accessJWT", accessJWT);
-      localStorage.setItem("refreshJWT", refreshJWT);
+      sessionStorage.setItem("accessJWT", tokens.accessJWT);
+      localStorage.setItem("refreshJWT", tokens.refreshJWT);
 
       // Update Redux store with user info
       dispatch(setUser(user));
