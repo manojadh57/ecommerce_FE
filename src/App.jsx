@@ -5,6 +5,7 @@ import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
 import ProductPage from "./pages/ProductPage.jsx";
+
 import CartPage from "./pages/CartPage.jsx";
 import Footer from "./components/Footer.jsx";
 import ShippingReturnsPage from "./pages/ShippingReturnsPage.jsx";
@@ -28,6 +29,9 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+
+        <Route path="/activate-user" element={<VerifyUser/>}/>
+        <Route path="*" element={<NotFound />} /
 
         {/* Product detail */}
         <Route path="/product/:id" element={<ProductPage />} />
