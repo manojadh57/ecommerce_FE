@@ -11,6 +11,7 @@ import ShippingReturnsPage from "./pages/ShippingReturnsPage.jsx";
 import StorePolicyPage from "./pages/StorePolicyPage.jsx";
 import PaymentMethodsPage from "./pages/PaymentMethodsPage.jsx";
 import CheckoutPage from "./pages/CheckoutPage";
+import OrderHistoryPage from "./pages/OrderHistoryPage.jsx";
 
 const NotFound = () => (
   <div className="text-center my-5">
@@ -29,18 +30,14 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-
         {/* Product detail */}
         <Route path="/product/:id" element={<ProductPage />} />
-
         {/* Cart */}
-        <Route path="/cart" element={<CartPage />} />
-
+        <Route path="/cart" element={<CartPage />} />\
         <Route path="/checkout" element={<CheckoutPage />} />
-
+        <Route path="/orders" element={<OrderHistoryPage />} />
         {/* Catch-all */}
         <Route path="*" element={<NotFound />} />
-
         {/* existing routes… */}
         <Route path="/shipping" element={<ShippingReturnsPage />} />
         <Route path="/policy" element={<StorePolicyPage />} />

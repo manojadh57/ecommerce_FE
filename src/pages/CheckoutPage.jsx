@@ -37,12 +37,14 @@ export default function CheckoutPage() {
 
       // call the customer orders endpoint
       await axios.post(`${import.meta.env.VITE_BASE_URL}orders`, payload, {
-        withCredentials: true,
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("accessJWT"),
+        },
       });
 
       toast.success("Order placed successfully");
       clearCart();
-      navigate("orders");
+      navigate("/orders");
     } catch (err) {
       console.error("Checkout error:", err);
       toast.error("Failed to place order");
