@@ -8,6 +8,7 @@ import { CartProvider } from "./hooks/useCart.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "react-toastify/dist/ReactToastify.css";
+
 import "./app.css";
 
 import { ToastContainer } from "react-toastify";

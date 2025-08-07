@@ -7,11 +7,15 @@ import Signup from "./pages/Signup.jsx";
 import ProductPage from "./pages/ProductPage.jsx";
 import CartPage from "./pages/CartPage.jsx";
 import Footer from "./components/Footer.jsx";
-import ShippingReturnsPage from "./pages/ShippingReturnsPage.jsx";
-import StorePolicyPage from "./pages/StorePolicyPage.jsx";
-import PaymentMethodsPage from "./pages/PaymentMethodsPage.jsx";
+
 import CheckoutPage from "./pages/CheckoutPage";
 import OrderHistoryPage from "./pages/OrderHistoryPage.jsx";
+import FAQ from "./pages/FAQ.jsx";
+import ShippingInfo from "./pages/ShippingInfo.jsx";
+import RefundPolicy from "./pages/RefundPolicy.jsx";
+import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
+import TermsOfService from "./pages/TermsOfService.jsx";
+import ContactUs from "./pages/ContactUs.jsx";
 
 const NotFound = () => (
   <div className="text-center my-5">
@@ -39,9 +43,12 @@ export default function App() {
         {/* Catch-all */}
         <Route path="*" element={<NotFound />} />
         {/* existing routes… */}
-        <Route path="/shipping" element={<ShippingReturnsPage />} />
-        <Route path="/policy" element={<StorePolicyPage />} />
-        <Route path="/payments" element={<PaymentMethodsPage />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/shipping" element={<ShippingInfo />} />
+        <Route path="/refund" element={<RefundPolicy />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="terms" element={<TermsOfService />} />
+        <Route path="/contact" element={<ContactUs />} />
       </Routes>
 
       <Footer />
