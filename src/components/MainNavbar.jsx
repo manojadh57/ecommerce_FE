@@ -43,7 +43,7 @@ export default function MainNavbar() {
       <Navbar bg="white" variant="light" className="border-bottom">
         <Container fluid className="py-2">
           <Navbar.Brand as={Link} to="/">
-            <img src={logo} alt="brand" height={70} />
+            <img src={logo} alt="brand" height={60} />
           </Navbar.Brand>
 
           <div className="ms-auto d-flex align-items-center gap-4 fs-5">
