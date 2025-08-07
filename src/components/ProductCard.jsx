@@ -1,52 +1,64 @@
-import { Card, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
-
-//image//
-const BASE = (
-  import.meta.env.VITE_IMAGE_BASE_URL || "http://localhost:8000"
-).replace(/\/+$/, "");
-const PLACEHOLDER = `${BASE}/assets/placeholder.png`;
-
-const imgUrl = (raw) => {
-  if (!raw) return PLACEHOLDER;
-  if (raw.startsWith("http")) return raw; // full URL
-  if (raw.startsWith("/")) return BASE + raw; // assets
-  if (raw.startsWith("assets/")) return `${BASE}/${raw}`; // assets
-  return `${BASE}/assets/${raw}`; // bare filename
-};
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../hooks/useCart";
+import { toast } from "react-toastify";
+import "../styles/ProductCard.css";
 
 const ProductCard = ({ product }) => {
-  const imgSrc = imgUrl(product.images?.[0]);
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
+
+  // Image URL with fallback
+  const imgSrc = product.images?.[0]
+    ? `${import.meta.env.VITE_IMAGE_BASE_URL?.replace(/\/$/, "")}/${
+        product.images[0]
+      }`
+    : "https://i.imgur.com/pjITBzX.jpg";
+
+  // Add to cart and show toast
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    addToCart(product, 1);
+    toast.success(`${product.name} added to cart`);
+  };
 
   return (
-    <Card className="h-100 shadow-sm border-0">
-      <Card.Img
-        src={imgSrc}
-        alt={product.name}
-        style={{
-          width: "100%",
-          height: "240px",
-          objectFit: "cover",
-          background: "#f6f6f6",
-        }}
-      />
+    <div
+      className="product-card"
+      onClick={() => navigate(`/product/${product._id}`)}
+      tabIndex={0}
+      role="button"
+    >
+      <img className="product-img" src={imgSrc} alt={product.name} />
 
-      <Card.Body className="d-flex flex-column">
-        <Card.Title>{product.name}</Card.Title>
-        <Card.Text>${product.price.toFixed(2)}</Card.Text>
+      <div className="card-content">
+        <h5 className="product-title">{product.name}</h5>
+        <p className="product-price">${product.price.toFixed(2)}</p>
 
-        <Button
-          as={Link}
-          to={`/product/${product._id}`}
-          variant="primary"
-          size="sm"
-          className="mt-auto"
+        {/* Details button */}
+        <button
+          className="btn btn-outline-secondary btn-block detail-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/product/${product._id}`);
+          }}
         >
           View Details
-        </Button>
-      </Card.Body>
-    </Card>
+        </button>
+
+        {/* Add to Cart with toast */}
+        <button
+          className="btn btn-dark btn-block cart-btn"
+          onClick={handleAddToCart}
+        >
+          + Add to Cart
+        </button>
+      </div>
+    </div>
   );
 };
 
 export default ProductCard;
+
+// - Uses react-toastify for notification
+// - Short comments only

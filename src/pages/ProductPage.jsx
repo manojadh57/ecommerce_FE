@@ -5,21 +5,18 @@ import { fetchSingleProduct } from "../features/products/productsActions";
 import Spinner from "../components/Spinner";
 import Alert from "../components/Alert";
 import { useCart } from "../hooks/useCart";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const ProductPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { addToCart } = useCart();
-
-  const prodState = useSelector((state) => state.products);
-  console.log("products slice:", prodState);
-
-  const product = prodState.selected;
-  const status = prodState.status;
-  const error = prodState.error;
-
+  const {
+    selected: product,
+    status,
+    error,
+  } = useSelector((state) => state.products);
   const [qty, setQty] = useState(1);
 
   useEffect(() => {
@@ -51,10 +48,15 @@ const ProductPage = () => {
     );
   }
 
+  const handleAdd = () => {
+    addToCart(product, qty); // match hook signature
+    toast.success(`${product.name} added`); // show toast
+  };
+
   return (
     <div className="container my-5">
       <div className="row">
-        {/* Image */}
+        {/* image */}
         <div className="col-md-6 mb-4">
           <img
             src={
@@ -69,7 +71,7 @@ const ProductPage = () => {
           />
         </div>
 
-        {/* Details */}
+        {/* details */}
         <div className="col-md-6">
           <h1>{product.name}</h1>
           <p className="h4 text-primary">${product.price.toFixed(2)}</p>
@@ -84,25 +86,14 @@ const ProductPage = () => {
               type="number"
               min="1"
               value={qty}
-              onChange={(e) => setQty(Number(e.target.value))}
+              onChange={(e) => setQty(Number(e.target.value) || 1)}
               className="form-control w-25"
             />
           </div>
 
-          <button
-            className="btn btn-success"
-            onClick={() => {
-              addToCart({ product, quantity: qty });
-              toast.success(" Added to cart!");
-            }}
-          >
+          <button className="btn btn-success" onClick={handleAdd}>
             Add to Cart
           </button>
-          <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            theme="colored"
-          />
         </div>
       </div>
     </div>

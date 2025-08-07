@@ -1,29 +1,31 @@
 import React from "react";
+import { Table, Button, Form, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../hooks/useCart";
-import { Table, Button, Form } from "react-bootstrap";
 
 export default function CartPage() {
-  const { items, updateQty, removeFromCart, clearCart } = useCart();
   const navigate = useNavigate();
+  const { items, updateQty, removeFromCart, clearCart } = useCart();
 
-  // total
+  console.log("CartPage items:", items);
+
+  // compute subtotal
   const subtotal = items.reduce(
-    (sum, { product, quantity }) => sum + product.price * quantity,
+    (sum, { product, quantity }) => sum + (product?.price || 0) * quantity,
     0
   );
 
   if (items.length === 0) {
     return (
-      <div className="container my-5">
+      <Container className="py-5 text-center">
         <h2>Your Cart is Empty</h2>
         <Button onClick={() => navigate("/")}>Go Shopping</Button>
-      </div>
+      </Container>
     );
   }
 
   return (
-    <div className="container my-5">
+    <Container className="py-5">
       <h2>Your Cart</h2>
       <Table bordered hover className="mt-4">
         <thead>
@@ -37,19 +39,25 @@ export default function CartPage() {
         </thead>
         <tbody>
           {items.map(({ product, quantity }) => (
-            <tr key={product._id}>
+            <tr key={product?._id}>
               <td>
                 <img
-                  src={`${import.meta.env.VITE_IMAGE_BASE_URL.replace(
-                    /\/$/,
-                    ""
-                  )}/${product.images[0]}`}
-                  alt={product.name}
+                  src={
+                    product?.images?.[0]
+                      ? `${import.meta.env.VITE_IMAGE_BASE_URL.replace(
+                          /\/$/,
+                          ""
+                        )}/${product.images[0]}`
+                      : "https://i.imgur.com/pjITBzX.jpg"
+                  }
+                  alt={product?.name}
                   style={{ width: "60px", marginRight: "10px" }}
                 />
-                {product.name}
+                {product?.name}
               </td>
-              <td className="text-center">${product.price.toFixed(2)}</td>
+              <td className="text-center">
+                ${product?.price?.toFixed(2) || "0.00"}
+              </td>
               <td className="text-center w-25">
                 <Form.Control
                   type="number"
@@ -61,7 +69,7 @@ export default function CartPage() {
                 />
               </td>
               <td className="text-center">
-                ${(product.price * quantity).toFixed(2)}
+                ${(product?.price * quantity).toFixed(2)}
               </td>
               <td className="text-center">
                 <Button
@@ -88,6 +96,6 @@ export default function CartPage() {
           Proceed to Checkout
         </Button>
       </div>
-    </div>
+    </Container>
   );
 }

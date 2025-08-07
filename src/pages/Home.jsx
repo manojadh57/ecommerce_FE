@@ -1,36 +1,31 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
-import axios from "axios";
 import ProductCard from "../components/ProductCard";
 
 const CUSTOMER_URL =
-  import.meta.env.VITE_BASE_URL?.trim() ||
-  "http://localhost:8000/api/customer/v1/";
+  import.meta.env.VITE_BASE_URL?.trim() + "products" ||
+  "http://localhost:8000/api/customer/v1/products";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    (async () => {
+    const fetchProducts = async () => {
       try {
-        const { data } = await axios.get(`${CUSTOMER_URL}products`);
-
+        const response = await fetch(CUSTOMER_URL);
+        const data = await response.json();
         const list = Array.isArray(data)
-          ? data // plain array
-          : Array.isArray(data?.data)
-          ? data.data // { data: [...] }
-          : Array.isArray(data?.products)
-          ? data.products // { products: [...] }
-          : [];
-
+          ? data
+          : data.data || data.products || [];
         setProducts(list);
       } catch (err) {
         console.error("Failed to fetch products:", err);
       } finally {
         setLoading(false);
       }
-    })();
+    };
+    fetchProducts();
   }, []);
 
   return (
@@ -42,7 +37,7 @@ const Home = () => {
           <Spinner animation="border" />
         </div>
       ) : products.length ? (
-        <Row>
+        <Row className="justify-content-center">
           {products.map((p) => (
             <Col key={p._id} sm={6} md={4} lg={3} className="mb-4">
               <ProductCard product={p} />

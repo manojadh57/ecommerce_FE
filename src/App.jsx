@@ -10,6 +10,7 @@ import Footer from "./components/Footer.jsx";
 import ShippingReturnsPage from "./pages/ShippingReturnsPage.jsx";
 import StorePolicyPage from "./pages/StorePolicyPage.jsx";
 import PaymentMethodsPage from "./pages/PaymentMethodsPage.jsx";
+import CheckoutPage from "./pages/CheckoutPage";
 
 const NotFound = () => (
   <div className="text-center my-5">
@@ -34,6 +35,8 @@ export default function App() {
 
         {/* Cart */}
         <Route path="/cart" element={<CartPage />} />
+
+        <Route path="/checkout" element={<CheckoutPage />} />
 
         {/* Catch-all */}
         <Route path="*" element={<NotFound />} />
