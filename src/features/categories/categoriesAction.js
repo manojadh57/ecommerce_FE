@@ -1,24 +1,26 @@
-import { setParents, setSubs, setStatus, setError } from "./categoriesSlice";
-import { getAllCategories, getSubCategories } from "../../helpers/axiosHelpers";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { getAllCategories } from "../../helpers/axiosHelpers";
 
-export const loadCategoriesTree = () => async (dispatch) => {
-  try {
-    dispatch(setStatus("loading"));
-    const categories = (await getAllCategories()) || [];
-    const parents = categories.filter((c) => !c.parent);
+export const loadCategoriesTree = createAsyncThunk(
+  "categories/loadTree",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await getAllCategories();
 
-    dispatch(setParents(parents));
+      const parents = data.filter((c) => !c.parent);
 
-    await Promise.all(
-      parents.map(async (p) => {
-        const { subCategories = [] } = await getSubCategories(p._id);
-        if (subCategories.length)
-          dispatch(setSubs({ parentId: p._id, subs: subCategories }));
-      })
-    );
+      const subsByParent = data.reduce((acc, cat) => {
+        if (cat.parent) {
+          acc[cat.parent] = acc[cat.parent] || [];
+          acc[cat.parent].push(cat);
+        }
+        return acc;
+      }, {});
 
-    dispatch(setStatus("succeeded"));
-  } catch (e) {
-    dispatch(setError(e?.message || "Failed to load categories"));
+      return { parents, subsByParent };
+    } catch (err) {
+      const msg = err.response?.data?.message || err.message;
+      return rejectWithValue(msg);
+    }
   }
-};
+);

@@ -1,0 +1,64 @@
+/* -------- Global navbar look -------- */
+.main-navbar {
+  font-family: var(--font-heading, Poppins, sans-serif);
+}
+
+/* -------- Pill search bar -------- */
+.search-bar .input-group {
+  background: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-radius: 50rem;
+  overflow: hidden;
+  max-width: 480px;
+  width: 100%;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.search-bar:focus-within .input-group {
+  box-shadow: 0 0 0 3px rgba(30, 158, 111, 0.25);
+  border-color: var(--bs-primary);
+}
+
+.search-bar .form-control {
+  background: transparent;
+  padding-left: 0; /* left icon already adds spacing */
+}
+
+.search-bar .btn-primary {
+  border-radius: 0 50rem 50rem 0;
+}
+
+/* -------- Autocomplete dropdown -------- */
+.suggest-box {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1050;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+/* Thumbnail inside dropdown */
+.suggest-thumb {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: 0.25rem;
+}
+
+/* -------- Off-canvas tweak -------- */
+.offcanvas-header {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+/* Smooth link hover */
+.nav-link,
+.navbar-nav .dropdown-toggle {
+  transition: color 0.15s ease;
+}
+.nav-link:hover,
+.navbar-nav .dropdown-toggle:hover {
+  color: var(--bs-primary);
+}

@@ -28,3 +28,13 @@ a:hover {
  border: 1px solid black;
  min-height: 90vh;
 }
+=======
+
+footer p {
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+}
+footer h6 {
+  font-size: 1rem;
+}
+

@@ -1,0 +1,65 @@
+/* Star size/color */
+.rating-stars svg {
+  width: 14px;
+  height: 14px;
+  vertical-align: -2px;
+  color: #f4c150;
+}
+
+/* Card shell (keep if you already have similar) */
+.product-card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 1px 8px rgba(0,0,0,.08);
+  transition: transform .15s ease, box-shadow .15s ease;
+  cursor: pointer;
+}
+.product-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.12);
+}
+.product-thumb {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  background: #fff;
+}
+.product-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.product-title {
+  font-size: .98rem;
+  font-weight: 700;
+  line-height: 1.25rem;
+  min-height: 2.5rem;
+}
+
+/* BIG centered price ticket (red on yellow) */
+.price-sticker {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .2rem;
+  padding: .28rem .7rem .33rem .6rem;
+  background: #ffe600;           /* yellow */
+  border: 3px solid #111;        /* bold outline */
+  border-radius: 12px;
+  box-shadow: 3px 3px 0 #111;    /* comic drop shadow */
+  transform: rotate(-1deg);
+  user-select: none;
+  -webkit-user-select: none;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", "Arial Black", system-ui, sans-serif;
+}
+.price-sticker .currency {
+  color: #e4002b;                /* red */
+  font-weight: 900;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+.price-sticker .amount {
+  color: #e4002b;
+  font-weight: 900;
+  font-size: 2rem;               /* BIG */
+  letter-spacing: .4px;
+  line-height: 1;
+}

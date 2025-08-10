@@ -1,0 +1,77 @@
+/* --- Gallery --- */
+.product-gallery .main-img-wrap {
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.product-gallery .thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  gap: .5rem;
+}
+.product-gallery .thumb {
+  border: 2px solid transparent;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 0;
+  background: transparent;
+}
+.product-gallery .thumb img {
+  display: block;
+  width: 100%;
+  height: 68px;
+  object-fit: cover;
+}
+.product-gallery .thumb.active {
+  border-color: var(--bs-primary);
+}
+
+/* --- Sticky buy box --- */
+
+
+.qty-box {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #ced4da;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.qty-box button {
+  border: none;
+  background: #f5f6f7;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+}
+.qty-box input {
+  width: 60px;
+  text-align: center;
+  border: none;
+  height: 38px;
+  outline: none;
+}
+
+/* --- Trust bullets --- */
+.trust-list li {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: .4rem;
+}
+.trust-list svg { color: var(--bs-success); }
+
+/* Reuse star size from ProductCard.css */
+.rating-stars svg {
+  width: 16px;
+  height: 16px;
+  color: #f4c150;
+}
+
+
+@media (min-width: 992px) {
+  .buy-box.sticky-lg-top {
+    top: calc(var(--nav-h, 72px) + 12px); /* a little extra breathing room */
+  }
+}

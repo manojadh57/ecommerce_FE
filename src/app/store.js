@@ -8,6 +8,7 @@ export const store = configureStore({
     user: userReducer,
     categories: categoriesReducer,
     products: productsReducer,
+    
   },
 });
 

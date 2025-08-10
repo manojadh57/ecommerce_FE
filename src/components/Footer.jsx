@@ -1,47 +1,104 @@
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { Facebook, Instagram } from "react-bootstrap-icons";
+
+import {
+  FaCcVisa,
+  FaCcMastercard,
+  FaCcAmex,
+  FaCcApplePay,
+  FaCcPaypal,
+  FaGooglePay,
+  FaCreditCard, // generic fallback icon
+} from "react-icons/fa";
+import { SiShopify } from "react-icons/si";
+
+import "../styles/Footer.css";
 
 const Footer = () => (
-  <footer className="bg-dark text-white pt-5">
+  <footer className="site-footer mt-auto pt-5">
     <Container>
-      <Row className="mb-4">
-        <Col md>
-          <h6>Shipping & Returns</h6>
-          <p className="small">
-            Store Policy
-            <br />
-            Payment Methods
+      <Row className="gy-5">
+        {/* ───── About ───── */}
+        <Col md={4}>
+          <h5 className="fw-bold mb-3">About Us</h5>
+          <p className="footer-text mb-4">
+            B&M TechStore thrives on providing Australians great products at
+            great prices. All of our products come with a&nbsp;30&nbsp;Day Money
+            Back Guarantee &amp; are shipped directly from Australia, to your
+            doorstep.
           </p>
+
+          <div className="d-flex gap-3 fs-4">
+            <a href="https://facebook.com" className="footer-icon-link">
+              <Facebook />
+            </a>
+            <a href="https://instagram.com" className="footer-icon-link">
+              <Instagram />
+            </a>
+          </div>
         </Col>
-        <Col md>
-          <h6>Contact</h6>
-          <p className="small mb-1">Tel 00000000</p>
-          <p className="small">manoj@gmail.com</p>
+
+        {/* ───── Footer menu ───── */}
+        <Col md={4}>
+          <h5 className="fw-bold mb-3">Footer menu</h5>
+          <ul className="list-unstyled footer-menu">
+            <li>
+              <a href="faq">FAQ</a>
+            </li>
+            <li>
+              <a href="shipping">Shipping Information</a>
+            </li>
+            <li>
+              <a href="refund">Refund Policy</a>
+            </li>
+            <li>
+              <a href="privacy">Privacy Policy</a>
+            </li>
+            <li>
+              <a href="terms">Terms Of Service</a>
+            </li>
+            <li>
+              <a href="contact">Contact Us</a>
+            </li>
+          </ul>
         </Col>
-        <Col md>
-          <h6>Follow</h6>
-          <p className="small">
-            Facebook
-            <br />
-            Instagram
-            <br />
-            Pinterest
+
+        {/* ───── Newsletter ───── */}
+        <Col md={4}>
+          <h5 className="fw-bold mb-3">Newsletter</h5>
+          <p className="footer-text">
+            Subscribe to receive updates, access to exclusive deals, and more.
           </p>
+
+          <Form className="d-flex flex-column gap-3 mt-3">
+            <Form.Control
+              type="email"
+              placeholder="Enter your email address"
+              className="rounded-0 py-2"
+            />
+            <Button variant="primary" className="w-100 py-2 fw-bold">
+              SUBSCRIBE
+            </Button>
+          </Form>
         </Col>
       </Row>
 
-      <Row className="align-items-center border-top border-light pt-4">
-        <Col md={6} className="mb-3 mb-md-0">
-          <Form className="d-flex">
-            <Form.Control type="email" placeholder="Email" className="me-2" />
-            <Button variant="primary">Subscribe Now</Button>
-          </Form>
-          <Form.Check
-            label="Yes, subscribe me to your newsletter."
-            className="mt-2 small"
-          />
+      {/* ───── Payment icons & copyright ───── */}
+      <Row className="pt-5 pb-2 align-items-center">
+        <Col>
+          <small>&copy; B&M TechStore</small>
         </Col>
-        <Col md={6} className="text-md-end small">
-          © 2025 by Manoj
+
+        <Col className="d-flex justify-content-end gap-3 flex-wrap fs-3 payment-icons">
+          <FaCcAmex />
+          <FaCcApplePay />
+          <FaGooglePay />
+          <FaCcMastercard />
+          <FaCcPaypal />
+          <SiShopify /> {/* Shop Pay / Shopify */}
+          <FaCcVisa />
+          <FaCreditCard />
+          {/* fallback / UnionPay placeholder */}
         </Col>
       </Row>
     </Container>
