@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const rootURL = import.meta.env.VITE_BASE_URL;
 export const authEP = rootURL + "auth";
@@ -13,6 +14,7 @@ export const apiProcesser = async ({
   method = "get",
   url,
   data,
+  showToast = false,
   isPrivate,
   isRefreshJwt,
   contentType = "application/json",
@@ -27,10 +29,19 @@ export const apiProcesser = async ({
   };
 
   try {
-    const { data: resp } = await axios({ method, url, data, headers });
+    let axiosPromise = axios({ method, url, data, headers });
+    if(showToast) {
+       toast.promise(axiosPromise, {
+        pending: "Please wait....",
+      });
+    }
+    const { data: resp } = await axiosPromise;
+    showToast && toast[resp.status](resp.message);
     return resp;
   } catch (e) {
     const msg = e?.response?.data?.message || e.message;
+      showToast && toast.error(msg); // error toast for catch block
+
     if (msg === "jwt expired") {
       const fresh = await renewAccessJWT();
       if (fresh) return apiProcesser({ method, url, data, isPrivate });
@@ -41,17 +52,27 @@ export const apiProcesser = async ({
   }
 };
 
-//for sign up\
+//for sign up or registering the userr
 export const signUpNewUserAPI = async (payload) => {
   const obj = {
     url: authEP + "/signup",
     method: "post",
     payload,
+    showToast: true,
   };
   const result = await apiProcesser(obj);
   console.log(result);
 };
 
+//for veirfying and activating the user
+export const verifyNewUserApi = async ({ sessionId, token }) => {
+  const obj = {
+    url: `${authEP}/activate-user?sessionId=${sessionId}&t=${token}`,
+    method: "get",
+  };
+  return await apiProcesser(obj);
+};
+//renewing the accessJWT
 export const renewAccessJWT = async () => {
   const { accessJWT } = await apiProcesser({
     method: "get",
@@ -62,6 +83,29 @@ export const renewAccessJWT = async () => {
   if (accessJWT) sessionStorage.setItem("accessJWT", accessJWT);
   return accessJWT;
 };
+
+// Request password reset OTP
+export const requestPassResetOTPApi = async (payload) => {
+  const obj = {
+    url: authEP + "/otp",
+    method: "post",
+   data: payload,  // use 'data' not 'payload' as per your apiProcesser
+    showToast: true,
+  };
+  return await apiProcesser(obj);
+};
+
+// Reset the password
+export const resetPassApi = async (payload) => {
+  const obj = {
+    url: authEP + "/reset-password",
+    method: "post",
+   data: payload,
+    showToast: true,
+  };
+  return await apiProcesser(obj);
+};
+
 
 //categories//
 export const getAllCategories = () => apiProcesser({ url: categoriesEP });
