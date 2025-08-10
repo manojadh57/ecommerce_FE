@@ -3,36 +3,35 @@ import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 
-//  helper to concat base + path safely
+// Helper to concat base + path safely
 const base =
-  import.meta.env.VITE_BASE_URL?.trim() ||
+  (import.meta.env.VITE_BASE_URL && import.meta.env.VITE_BASE_URL.trim()) ||
   "http://localhost:8000/api/customer/v1/";
-const PRODUCTS_ENDPOINT = `${base.replace(/\/?$/, "/")}products`; // always ends with /products
+const PRODUCTS_ENDPOINT = `${base.replace(/\/?$/, "/")}products`; // .../products
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // search term from UR
-  const { search: locSearch } = useLocation(); //
+  // search term from URL
+  const { search: locSearch } = useLocation();
   const term = new URLSearchParams(locSearch).get("q") || "";
 
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        // /products?q=term (omit param if empty)
-        const url =
-          term.trim().length > 0
-            ? `${PRODUCTS_ENDPOINT}?q=${encodeURIComponent(term.trim())}`
-            : PRODUCTS_ENDPOINT;
+        // Build URL: always include ratings, optionally include q
+        const url = new URL(PRODUCTS_ENDPOINT);
+        url.searchParams.set("includeRatings", "1");
+        if (term.trim()) url.searchParams.set("q", term.trim());
 
-        const res = await fetch(url);
+        const res = await fetch(url.toString());
         const data = await res.json();
 
         const list = Array.isArray(data)
           ? data
-          : data.data || data.products || [];
+          : data.products || data.data || [];
 
         setProducts(list);
       } catch (err) {
@@ -44,9 +43,8 @@ const Home = () => {
     };
 
     fetchProducts();
-  }, [term]); // efetch whenever ?q changes
+  }, [term]);
 
-  // ─── UI ─
   return (
     <Container className="py-4">
       {term ? (

@@ -1,53 +1,65 @@
+/* Star size/color */
+.rating-stars svg {
+  width: 14px;
+  height: 14px;
+  vertical-align: -2px;
+  color: #f4c150;
+}
+
+/* Card shell (keep if you already have similar) */
 .product-card {
-  width: 220px;
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 1px 8px rgba(0,0,0,.08);
+  transition: transform .15s ease, box-shadow .15s ease;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  margin: 0 auto;
 }
-
 .product-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.12);
 }
-
-.product-img {
+.product-thumb {
   width: 100%;
-  height: 180px;
-  object-fit: cover;
-  display: block;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  background: #fff;
 }
-
-.card-content {
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+.product-thumb img { width: 100%; height: 100%; object-fit: cover; }
 
 .product-title {
-  font-size: 1rem;
-  font-weight: 600;
-  margin: 8px 0 4px;
-  text-align: center;
-  line-height: 1.2;
-  height: 2.4rem; /* two lines max */
+  font-size: .98rem;
+  font-weight: 700;
+  line-height: 1.25rem;
+  min-height: 2.5rem;
 }
 
-.product-price {
-  font-size: 0.95rem;
-  color: #555;
-  margin-bottom: 12px;
+/* BIG centered price ticket (red on yellow) */
+.price-sticker {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .2rem;
+  padding: .28rem .7rem .33rem .6rem;
+  background: #ffe600;           /* yellow */
+  border: 3px solid #111;        /* bold outline */
+  border-radius: 12px;
+  box-shadow: 3px 3px 0 #111;    /* comic drop shadow */
+  transform: rotate(-1deg);
+  user-select: none;
+  -webkit-user-select: none;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", "Arial Black", system-ui, sans-serif;
 }
-
-.detail-btn {
-  font-size: 0.85rem;
-  margin-bottom: 8px;
+.price-sticker .currency {
+  color: #e4002b;                /* red */
+  font-weight: 900;
+  font-size: 1.2rem;
+  line-height: 1;
 }
-
-.cart-btn {
-  font-size: 0.9rem;
+.price-sticker .amount {
+  color: #e4002b;
+  font-weight: 900;
+  font-size: 2rem;               /* BIG */
+  letter-spacing: .4px;
+  line-height: 1;
 }

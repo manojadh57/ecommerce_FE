@@ -1,0 +1,13 @@
+/* Keep the summary under the navbar on desktop */
+@media (min-width: 992px) {
+  .checkout-summary.sticky-lg-top {
+    top: calc(var(--nav-h, 72px) + 12px);
+  }
+}
+
+/* Mini items list */
+.mini-items { display: flex; flex-direction: column; gap: 10px; }
+.mini-line { display: grid; grid-template-columns: 48px 1fr auto; gap: 10px; align-items: center; }
+.mini-line img { width: 48px; height: 48px; object-fit: cover; border-radius: 8px; background: #fff; }
+.mini-name { font-size: .92rem; font-weight: 600; }
+.mini-line-total { font-weight: 700; }

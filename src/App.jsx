@@ -16,6 +16,7 @@ import RefundPolicy from "./pages/RefundPolicy.jsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
 import TermsOfService from "./pages/TermsOfService.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
+import CategoryPage from "./pages/CategoryPage.jsx";
 
 const NotFound = () => (
   <div className="text-center my-5">
@@ -36,6 +37,7 @@ export default function App() {
         <Route path="/signup" element={<Signup />} />
         {/* Product detail */}
         <Route path="/product/:id" element={<ProductPage />} />
+        <Route path="/category/:id" element={<CategoryPage />} />
         {/* Cart */}
         <Route path="/cart" element={<CartPage />} />\
         <Route path="/checkout" element={<CheckoutPage />} />
