@@ -46,7 +46,8 @@ const Signup = () => {
   };
 
   return (
-    <Container style={{ maxWidth: 420 }} className="py-5">
+    <div className="signup d-flex justify-content-center align-items-center"> 
+        <Container style={{ maxWidth: 420 }} className="card signup-card p-5 mt-5 shadow-lg mb-5">
       <h2 className="mb-4 text-center">Create Account</h2>
 
       <Form onSubmit={handleSubmit}>
@@ -108,7 +109,8 @@ const Signup = () => {
       <p className="small mt-3 text-center">
         Already have an account? <Link to="/login">Log In</Link>
       </p>
-    </Container>
+    </Container></div>
+
   );
 };
 

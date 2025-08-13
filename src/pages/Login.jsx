@@ -20,31 +20,43 @@ const Login = () => {
     if (status === "success") nav(loc.state?.from || "/");
   };
   return (
-    <Container style={{ maxWidth: 380 }} className="py-5">
-      <h2 className="mb-4 text-center">Log In</h2>
-      <Form onSubmit={handleSubmit}>
-        <Form.Control
-          className="mb-3"
-          type="email"
-          placeholder="Email"
-          ref={emailRef}
-          required
-        />
-        <Form.Control
-          className="mb-3"
-          type="password"
-          placeholder="Password"
-          ref={passRef}
-          required
-        />
-        <Button type="submit" variant="primary" className="w-100">
-          Log In
-        </Button>
-      </Form>
-      <p className="small mt-3 text-center">
-        Need an account? <Link to="/signup">Sign up</Link>
-      </p>
-    </Container>
+    <>
+      <div className="login d-flex justify-content-center align-items-center">
+        <Container
+          style={{ maxWidth: 380 }}
+          className="card login-card p-5 mt-5 shadow-lg mb-5"
+        >
+          <h2 className="mb-4 text-center">Log In</h2>
+          <Form onSubmit={handleSubmit}>
+            <Form.Control
+              className="mb-3"
+              type="email"
+              placeholder="Email"
+              ref={emailRef}
+              required
+            />
+            <Form.Control
+              className="mb-3"
+              type="password"
+              placeholder="Password"
+              ref={passRef}
+              required
+            />
+            <Button type="submit" variant="primary" className="w-100">
+              Log In
+            </Button>
+          </Form>
+          <br />
+          
+          <p className="text-center">
+            Forgot Password? <a href="/forgot-password">Reset Now</a>
+          </p>
+          <p className="small mt-3 text-center">
+            Need an account? <Link to="/signup">Sign up</Link>
+          </p>
+        </Container>
+      </div>
+    </>
   );
 };
 export default Login;

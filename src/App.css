@@ -1,6 +1,6 @@
 /* Accent colour #ff694f (Wix template) */
 :root {
-  --accent: #ff694f;
+  --accent: #0d6efd; /* Bootstrap blue */
 }
 
 /* Buttons */
@@ -24,6 +24,11 @@
 a:hover {
   color: var(--accent) !important;
 }
+.login {
+ border: 1px solid black;
+ min-height: 90vh;
+}
+=======
 
 footer p {
   margin-bottom: 0.4rem;
@@ -32,3 +37,4 @@ footer p {
 footer h6 {
   font-size: 1rem;
 }
+
