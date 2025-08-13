@@ -1,0 +1,50 @@
+.my-orders .order-card__header {
+  background: linear-gradient(180deg, #f9fbff, #f3f6fb);
+}
+
+.my-orders .order-card {
+  border-radius: 16px;
+}
+
+.my-orders .order-id {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  letter-spacing: 0.1px;
+}
+
+.my-orders .order-total {
+  font-size: 1.05rem;
+}
+
+.my-orders .order-line + .order-line {
+  border-top: 1px dashed rgba(0, 0, 0, 0.06);
+  padding-top: 12px;
+  margin-top: 12px;
+}
+
+.my-orders .order-thumb {
+  object-fit: cover;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.my-orders .order-name {
+  color: #0d6efd;
+  text-decoration: none;
+}
+
+.my-orders .order-name:hover {
+  text-decoration: underline;
+}
+
+.my-orders .qty-badge {
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 999px;
+}
+
+.my-orders .order-menu .dropdown-toggle {
+  background: #fff;
+  border-radius: 10px;
+  padding: 2px 8px;
+}
+.my-orders .order-menu .dropdown-menu {
+  border-radius: 12px;
+}

@@ -15,63 +15,51 @@ import { useDispatch, useSelector } from "react-redux";
 
 import logo from "../assets/logo.png";
 import { loadCategoriesTree } from "../features/categories/categoriesAction.js";
-import { userLogoutAction } from "../features/users/userAction.js";
+import { logout as logoutSlice } from "../features/users/userSlice.js";
 import CartButton from "./CartButton.jsx";
 import "../styles/Navbar.css";
 
-const BASE =
-  (import.meta.env.VITE_BASE_URL && import.meta.env.VITE_BASE_URL.trim()) ||
-  "http://localhost:8000/api/customer/v1/";
+const BASE = (
+  import.meta.env.VITE_BASE_URL || "http://localhost:8000/api/customer/v1/"
+).trim();
 
 export default function MainNavbar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { search: locSearch } = useLocation();
 
-  // wrapper ref (for outside-click + measuring height)
   const wrapRef = useRef(null);
-
-  // search state
   const [term, setTerm] = useState(
     () => new URLSearchParams(locSearch).get("q") || ""
   );
   const [suggest, setSuggest] = useState([]);
-
-  // mobile categories drawer
   const [showCats, setShowCats] = useState(false);
 
-  // data
+  // Load categories for dropdowns
   useEffect(() => {
     dispatch(loadCategoriesTree());
   }, [dispatch]);
 
-  const { user } = useSelector((s) => s.user);
-  const { parents, subsByParent } = useSelector((s) => s.categories);
+  const { user, isAuth } = useSelector((s) => s.user);
+  const { parents = [], subsByParent = {} } = useSelector(
+    (s) => s.categories || {}
+  );
+
   const displayName =
     user?.fName ||
     user?.name ||
     (user?.email ? user.email.split("@")[0] : "User");
 
-  // keep CSS var of header height (so sticky content avoids overlap)
-  useEffect(() => {
-    const setNavH = () => {
-      const h = wrapRef.current?.offsetHeight || 72;
-      document.documentElement.style.setProperty("--nav-h", `${h}px`);
-    };
-    setNavH();
-    window.addEventListener("resize", setNavH);
-    return () => window.removeEventListener("resize", setNavH);
-  }, []);
-
-  // fetch search suggestions (with debounce)
+  // Product search suggestions
   useEffect(() => {
     const q = term.trim();
     if (q.length < 2) return setSuggest([]);
-
     const id = setTimeout(async () => {
       try {
         const res = await fetch(
-          `${BASE}products?q=${encodeURIComponent(q)}&limit=5`
+          `${BASE.replace(/\/?$/, "/")}products?q=${encodeURIComponent(
+            q
+          )}&limit=5`
         );
         const data = await res.json();
         setSuggest(
@@ -81,11 +69,10 @@ export default function MainNavbar() {
         setSuggest([]);
       }
     }, 250);
-
     return () => clearTimeout(id);
   }, [term]);
 
-  // close suggestions on outside click
+  // Click-away to close suggestions
   useEffect(() => {
     const handle = (e) =>
       wrapRef.current && !wrapRef.current.contains(e.target) && setSuggest([]);
@@ -93,7 +80,6 @@ export default function MainNavbar() {
     return () => document.removeEventListener("mousedown", handle);
   }, []);
 
-  // handlers
   const submitSearch = (e) => {
     e.preventDefault();
     const q = term.trim();
@@ -123,14 +109,28 @@ export default function MainNavbar() {
     ""
   );
 
+  const doLogout = () => {
+    try {
+      sessionStorage.removeItem("accessJWT");
+      localStorage.removeItem("refreshJWT");
+    } catch {}
+    dispatch(logoutSlice());
+    navigate("/");
+  };
+
   return (
     <>
-      <header className="two-row-navbar main-navbar shadow-sm" ref={wrapRef}>
-        {/* Row 1: logo | search (center) | user + cart */}
+      {/* Inline style is a final guarantee the header is NOT sticky */}
+      <header
+        className="two-row-navbar main-navbar shadow-sm"
+        ref={wrapRef}
+        style={{ position: "static", top: "auto" }}
+      >
+        {/* Top row: logo, search, greeting + My Orders + Logout, cart */}
         <div className="nb-top">
           <Container fluid className="py-2">
             <div className="d-flex align-items-center">
-              {/* left: logo + (mobile) categories button */}
+              {/* Mobile menu button + Logo */}
               <div className="d-flex align-items-center gap-2">
                 <Button
                   variant="light"
@@ -141,13 +141,12 @@ export default function MainNavbar() {
                 >
                   <ListIcon />
                 </Button>
-
                 <Link to="/" className="navbar-brand m-0 p-0">
-                  <img src={logo} alt="brand" height={64} />
+                  <img src={logo} alt="brand" />
                 </Link>
               </div>
 
-              {/* center: search */}
+              {/* Search (desktop) — compact */}
               <div className="flex-grow-1 d-none d-md-flex justify-content-center">
                 <Form
                   className="search-bar position-relative"
@@ -157,7 +156,6 @@ export default function MainNavbar() {
                     <span className="input-group-text bg-transparent border-0 ps-3">
                       <Search size={18} className="text-muted" />
                     </span>
-
                     <FormControl
                       type="search"
                       placeholder="Search products"
@@ -165,7 +163,6 @@ export default function MainNavbar() {
                       onChange={(e) => setTerm(e.target.value)}
                       className="border-0 shadow-none"
                     />
-
                     <button
                       className="btn btn-primary rounded-end-pill"
                       type="submit"
@@ -206,16 +203,19 @@ export default function MainNavbar() {
                 </Form>
               </div>
 
-              {/* right: auth + cart */}
+              {/* Right actions */}
               <div className="ms-auto d-flex align-items-center gap-3">
-                {user?._id ? (
+                {isAuth ? (
                   <>
                     <span className="fw-medium d-none d-md-inline">
                       Hi, {displayName}
                     </span>
+                    <Link to="/my-orders" className="nav-link p-0 fw-semibold">
+                      My Orders
+                    </Link>
                     <button
                       className="btn btn-link p-0 nav-link"
-                      onClick={() => dispatch(userLogoutAction())}
+                      onClick={doLogout}
                     >
                       Logout
                     </button>
@@ -235,27 +235,22 @@ export default function MainNavbar() {
           </Container>
         </div>
 
-        {/* Row 2: centered categories (desktop) */}
-        <div className="nb-cats d-none d-lg-block border-top">
+        {/* Categories row (desktop) */}
+        <div className="nb-cats d-none d-lg-block">
           <Container fluid>
             <Nav className="justify-content-center">
               <Nav.Link as={Link} to="/" className="fw-medium">
                 Home
               </Nav.Link>
-
               {parents.map((p) => (
                 <ParentLink key={p._id} cat={p} />
               ))}
-
-              <Nav.Link as={Link} to="/collections" className="fw-medium">
-                All Collections
-              </Nav.Link>
             </Nav>
           </Container>
         </div>
       </header>
 
-      {/* Mobile categories drawer */}
+      {/* Mobile offcanvas */}
       <Offcanvas
         show={showCats}
         onHide={() => setShowCats(false)}
@@ -269,6 +264,17 @@ export default function MainNavbar() {
             <Nav.Link as={Link} to="/" onClick={() => setShowCats(false)}>
               Home
             </Nav.Link>
+
+            {isAuth && (
+              <Nav.Link
+                as={Link}
+                to="/my-orders"
+                onClick={() => setShowCats(false)}
+              >
+                MY ORDERS
+              </Nav.Link>
+            )}
+
             {parents.map((p) => {
               const kids = subsByParent[p._id] || [];
               return !kids.length ? (
@@ -298,13 +304,6 @@ export default function MainNavbar() {
                 </div>
               );
             })}
-            <Nav.Link
-              as={Link}
-              to="/collections"
-              onClick={() => setShowCats(false)}
-            >
-              All Collections
-            </Nav.Link>
           </Nav>
         </Offcanvas.Body>
       </Offcanvas>

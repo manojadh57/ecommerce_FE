@@ -8,7 +8,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles/toast.css";
-import "./app.css";
+import "./App.css";
+import "./styles/theme.css";
 
 import { ToastContainer, Slide } from "react-toastify";
 import App from "./App.jsx";

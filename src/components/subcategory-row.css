@@ -1,0 +1,80 @@
+.sub-row {
+  max-width: 1280px;
+  margin: 10px auto 26px;
+  padding: 0 12px;
+}
+
+.sub-row__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 8px;
+}
+
+.sub-row__title {
+  font-weight: 900;
+  letter-spacing: .2px;
+  font-size: clamp(18px, 2.4vw, 24px);
+  margin: 0;
+  position: relative;
+  padding-left: 10px;
+}
+.sub-row__title::before {
+  content: "";
+  position: absolute; left: 0; top: 55%;
+  transform: translateY(-50%);
+  width: 4px; height: 1.1em; border-radius: 6px;
+  background: linear-gradient(180deg, #4f8cff, #7649ff);
+}
+
+.sub-row__more {
+  text-decoration: none;
+  font-weight: 600;
+  color: #0d6efd;
+}
+.sub-row__more:hover { text-decoration: underline; }
+
+.sub-row__empty {
+  background: #f8f9fc;
+  border: 1px dashed #d9e2f2;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  color: #6c757d;
+}
+
+/* Marquee strip */
+.sub-row__marquee {
+  --duration: 26s;
+  overflow: hidden;
+  position: relative;
+  border-radius: 14px;
+}
+
+.sub-row__track {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  animation: sub-scroll var(--duration) linear infinite;
+  padding: 6px 4px;
+}
+
+.sub-row__marquee:hover .sub-row__track {
+  animation-play-state: paused;
+}
+
+@keyframes sub-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); } /* first half == second half (duplicated) */
+}
+
+/* Cell ensures ProductCard has a stable width for smooth scroll */
+.sub-row__cell {
+  flex: 0 0 auto;
+  width: clamp(240px, 26vw, 300px);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .sub-row__track { animation: none; }
+}

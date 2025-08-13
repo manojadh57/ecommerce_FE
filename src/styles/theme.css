@@ -1,0 +1,51 @@
+/* ========= App Theme (Calm) ========= */
+:root{
+  /* Page + surfaces */
+  --bg-app: #f6f8fb;          /* calm page background */
+  --bg-app-accent: #eef3fb;   /* faint halo tint behind hero */
+  --card-bg: #ffffff;         /* surfaces (hero stage, product cards) */
+  --card-shadow: 0 12px 30px rgba(0,0,0,.08);
+  --radius-lg: 22px;
+
+  /* (optional) brand accents used by dots/links etc. */
+  --brand: #3b82f6;
+  --muted: #cfd6e6;
+}
+
+/* Site background */
+html, body, #root{
+  background: var(--bg-app);
+}
+
+/* ---------- Hero (no-crop image version) ---------- */
+/* Subtle halo so the hero “floats” on the calm bg */
+.hero-ads{
+  max-width: 1280px;              /* keep your container width */
+  margin: 16px auto 24px;
+  padding: 0 12px;
+  background: radial-gradient(900px 380px at 50% 0, var(--bg-app-accent), transparent 70%);
+}
+
+/* The hero “card” surface */
+.hero-ads__stage{
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--radius-lg);
+}
+
+/* Controls styling to match the theme */
+.hero-ads__nav{
+  background: rgba(255,255,255,.92);
+  box-shadow: 0 10px 26px rgba(0,0,0,.12);
+}
+.hero-ads__dot{ background: var(--muted); }
+.hero-ads__dot.is-on{ background: var(--brand); }
+
+/* ---------- Optional: make product cards match ---------- */
+/* Adjust selector to your card root if different */
+.product-card, .pcard, .card.product{
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  border-radius: 14px;
+  border: 0;
+}

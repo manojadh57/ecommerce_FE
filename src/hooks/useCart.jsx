@@ -3,7 +3,20 @@ import React, { createContext, useContext, useState } from "react";
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [items, setItems] = useState([]); // [{ product, quantity }...]
+  const [items, setItems] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("cart_items") || "[]");
+    } catch {
+      return [];
+    }
+  }); // [{ product, quantity }...]
+
+  // persist to localStorage on change
+  React.useEffect(() => {
+    try {
+      localStorage.setItem("cart_items", JSON.stringify(items));
+    } catch {}
+  }, [items]);
 
   const addToCart = (product, quantity) => {
     console.log("Adding to cart:", product?._id, "qty:", quantity);

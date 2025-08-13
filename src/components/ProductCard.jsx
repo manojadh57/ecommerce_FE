@@ -65,6 +65,10 @@ const ProductCard = ({ product }) => {
       onClick={() => navigate(`/product/${product._id}`)}
       tabIndex={0}
       role="button"
+      onKeyDown={(e) =>
+        (e.key === "Enter" || e.key === " ") &&
+        navigate(`/product/${product._id}`)
+      }
     >
       {/* Image */}
       <div className="product-thumb">

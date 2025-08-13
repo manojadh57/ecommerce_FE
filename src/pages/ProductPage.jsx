@@ -26,15 +26,16 @@ const BASE =
 
 /* Small star row for the header summary */
 const StarsInline = ({ value = 0, count = 0 }) => {
-  if (!count) return null;
+  // CHANGED: removed early return so stars always show (even with 0 reviews)
   const v = Math.max(0, Math.min(5, Math.round((Number(value) || 0) * 2) / 2));
   const slots = Array.from({ length: 5 }, (_, i) => {
     const n = i + 1;
     return v >= n ? "full" : v >= n - 0.5 ? "half" : "empty";
   });
   return (
-    <div className="d-flex align-items-center gap-2 text-muted">
-      <span className="rating-stars">
+    <div className="d-flex align-items-center gap-2">
+      {/* CHANGED: force visible color for stars */}
+      <span className="rating-stars text-warning">
         {slots.map((t, i) =>
           t === "full" ? (
             <FaStar key={i} />
@@ -45,7 +46,7 @@ const StarsInline = ({ value = 0, count = 0 }) => {
           )
         )}
       </span>
-      <span className="small">({count})</span>
+      <span className="small text-muted">({count})</span>
     </div>
   );
 };
@@ -66,16 +67,42 @@ const ProductPage = () => {
     dispatch(fetchSingleProduct(id));
   }, [dispatch, id]);
 
-  // fetch review summary (avg + count)
+  // CHANGED: review summary fetch now handles multiple response shapes
   useEffect(() => {
     if (!id) return;
     (async () => {
       try {
         const res = await fetch(`${BASE.replace(/\/?$/, "/")}reviews/${id}`);
         const json = await res.json();
+
+        let avg = 0,
+          count = 0;
+
+        // Shape A: raw array of reviews
+        if (Array.isArray(json)) {
+          const ratings = json
+            .map((r) => Number(r?.rating ?? r?.stars ?? 0))
+            .filter((n) => Number.isFinite(n));
+          count = ratings.length;
+          avg = count ? ratings.reduce((a, b) => a + b, 0) / count : 0;
+        }
+        // Shape B: { data: [...] }
+        else if (Array.isArray(json?.data)) {
+          const ratings = json.data
+            .map((r) => Number(r?.rating ?? r?.stars ?? 0))
+            .filter((n) => Number.isFinite(n));
+          count = ratings.length;
+          avg = count ? ratings.reduce((a, b) => a + b, 0) / count : 0;
+        }
+        // Shape C: { average, count } or variants
+        else {
+          avg = Number(json?.average ?? json?.avg ?? 0);
+          count = Number(json?.count ?? json?.total ?? json?.reviewsCount ?? 0);
+        }
+
         setSummary({
-          average: json?.average || 0,
-          count: json?.count || 0,
+          average: Math.round(avg * 2) / 2, // CHANGED: half-step rounding
+          count,
         });
       } catch {
         setSummary({ average: 0, count: 0 });

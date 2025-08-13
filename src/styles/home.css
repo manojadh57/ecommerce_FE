@@ -1,0 +1,7 @@
+.home-products {
+  padding: 28px 0 40px;
+  background: linear-gradient(180deg, #fff, #fafbfe);
+}
+.home-products .card {
+  border-radius: 16px;
+}
