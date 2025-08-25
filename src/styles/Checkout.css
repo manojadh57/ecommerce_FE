@@ -11,3 +11,28 @@
 .mini-line img { width: 48px; height: 48px; object-fit: cover; border-radius: 8px; background: #fff; }
 .mini-name { font-size: .92rem; font-weight: 600; }
 .mini-line-total { font-weight: 700; }
+
+/* thin animated bar shown at the very top while placing an order */
+.top-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 2000;
+  background: linear-gradient(
+    90deg,
+    rgba(13, 110, 253, 0) 0%,
+    rgba(13, 110, 253, 0.35) 35%,
+    rgba(13, 110, 253, 1) 50%,
+    rgba(13, 110, 253, 0.35) 65%,
+    rgba(13, 110, 253, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: checkoutTopProgress 1s linear infinite;
+}
+
+@keyframes checkoutTopProgress {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

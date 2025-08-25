@@ -9,12 +9,9 @@ import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
 import ProductPage from "./pages/ProductPage.jsx";
 
-import { VerifyUser } from "./pages/VerifyUser.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
-
 import CartPage from "./pages/CartPage.jsx";
 import Footer from "./components/Footer.jsx";
-
 import CheckoutPage from "./pages/CheckoutPage";
 import OrderHistoryPage from "./pages/OrderHistoryPage.jsx";
 import FAQ from "./pages/FAQ.jsx";
@@ -25,6 +22,11 @@ import TermsOfService from "./pages/TermsOfService.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
 import CategoryPage from "./pages/CategoryPage.jsx";
 import MyOrdersPage from "./pages/MyOrdersPage.jsx";
+
+import VerifyEmailSent from "./pages/VerifyEmailSent.jsx";
+import VerifyUser from "./pages/VerifyUser.jsx";
+
+import ResetPassword from "./pages/ResetPassword.jsx";
 
 const NotFound = () => (
   <div className="text-center my-5">
@@ -49,29 +51,32 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/verify-email-sent" element={<VerifyEmailSent />} />
+        <Route path="/verify-email/:token" element={<VerifyUser />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
 
-        <Route path="/activate-user" element={<VerifyUser/>}/>
-        <Route path="/forgot-password" element={<ForgotPassword />}/>
-        <Route path="*" element={<NotFound />} />
-
-        {/* product description page */}
         {/* Product detail */}
-
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/category/:id" element={<CategoryPage />} />
-        {/* Cart */}
-        <Route path="/cart" element={<CartPage />} />{" "}
+
+        {/* Cart / Checkout */}
+        <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+
+        {/* Orders */}
         <Route path="/orders" element={<OrderHistoryPage />} />
+        <Route path="/my-orders" element={<MyOrdersPage />} />
+
         {/* Info pages */}
         <Route path="/faq" element={<FAQ />} />
         <Route path="/shipping" element={<ShippingInfo />} />
         <Route path="/refund" element={<RefundPolicy />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
-        <Route path="/terms" element={<TermsOfService />} />{" "}
+        <Route path="/terms" element={<TermsOfService />} />
         <Route path="/contact" element={<ContactUs />} />
-        <Route path="/my-orders" element={<MyOrdersPage />} />
-        {/* Catch-all */}
+
+        {/* Catch-all (only once) */}
         <Route path="*" element={<NotFound />} />
       </Routes>
 

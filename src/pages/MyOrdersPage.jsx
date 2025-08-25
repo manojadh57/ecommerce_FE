@@ -34,7 +34,12 @@ const imgUrl = (path) =>
     ? path
     : `${IMG_BASE}/${path}`.replace(/([^:]\/)\/+/g, "$1");
 
-const formatMoney = (n) => `$${Number(n || 0).toFixed(2)}`;
+// ✅ FIX: cents → plain number with 2 decimals, no currency symbol
+const formatMoney = (cents) =>
+  ((Number(cents) || 0) / 100).toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 
 function statusMeta(raw) {
   const s = (raw || "pending").toLowerCase();
@@ -135,7 +140,7 @@ export default function MyOrdersPage() {
             ? new Date(o.createdAt).toLocaleString()
             : "";
           const { variant, label, Icon } = statusMeta(o.status);
-          const total = formatMoney(o.totalAmount);
+          const total = formatMoney(o.totalAmount); // now correct (cents → 2-decimals, no $)
           const lines = Array.isArray(o.products) ? o.products : [];
           const itemCount = lines.reduce(
             (sum, l) => sum + (Number(l?.quantity) || 0),

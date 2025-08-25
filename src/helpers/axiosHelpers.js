@@ -30,8 +30,8 @@ export const apiProcesser = async ({
 
   try {
     let axiosPromise = axios({ method, url, data, headers });
-    if(showToast) {
-       toast.promise(axiosPromise, {
+    if (showToast) {
+      toast.promise(axiosPromise, {
         pending: "Please wait....",
       });
     }
@@ -40,7 +40,7 @@ export const apiProcesser = async ({
     return resp;
   } catch (e) {
     const msg = e?.response?.data?.message || e.message;
-      showToast && toast.error(msg); // error toast for catch block
+    showToast && toast.error(msg); // error toast for catch block
 
     if (msg === "jwt expired") {
       const fresh = await renewAccessJWT();
@@ -65,13 +65,36 @@ export const signUpNewUserAPI = async (payload) => {
 };
 
 //for veirfying and activating the user
-export const verifyNewUserApi = async ({ sessionId, token }) => {
+export const verifyNewUserApi = async (token) => {
   const obj = {
-    url: `${authEP}/activate-user?sessionId=${sessionId}&t=${token}`,
+    url: `${authEP}/verify/${token}`,
     method: "get",
   };
   return await apiProcesser(obj);
 };
+
+//req password//
+
+export const requestPasswordResetApi = async (email) => {
+  const obj = {
+    url: `${authEP}/forgot-password`,
+    method: "post",
+    data: { email },
+  };
+  return await apiProcesser(obj);
+};
+
+//reset password//
+
+export const resetPasswordApi = async ({ token, password }) => {
+  const obj = {
+    url: `${authEP}/reset-password`,
+    method: "post",
+    data: { token, password },
+  };
+  return await apiProcesser(obj);
+};
+
 //renewing the accessJWT
 export const renewAccessJWT = async () => {
   const { accessJWT } = await apiProcesser({
@@ -89,7 +112,7 @@ export const requestPassResetOTPApi = async (payload) => {
   const obj = {
     url: authEP + "/otp",
     method: "post",
-   data: payload,  // use 'data' not 'payload' as per your apiProcesser
+    data: payload, // use 'data' not 'payload' as per your apiProcesser
     showToast: true,
   };
   return await apiProcesser(obj);
@@ -100,12 +123,11 @@ export const resetPassApi = async (payload) => {
   const obj = {
     url: authEP + "/reset-password",
     method: "post",
-   data: payload,
+    data: payload,
     showToast: true,
   };
   return await apiProcesser(obj);
 };
-
 
 //categories//
 export const getAllCategories = () => apiProcesser({ url: categoriesEP });

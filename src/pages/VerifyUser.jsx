@@ -1,64 +1,72 @@
-import React, { useEffect, useState } from 'react'
-import { Alert, Spinner } from 'react-bootstrap'
-import { useNavigate, useSearchParams } from 'react-router-dom'
-import { verifyNewUserApi } from '../helpers/axiosHelpers.js';
+import React, { useEffect, useState } from "react";
+import { Alert, Spinner, Button, Container } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
+import { verifyNewUserApi } from "../helpers/axiosHelpers.js";
 
 export const VerifyUser = () => {
+  const { token } = useParams(); // token from /verify-email/:token
+  const navigate = useNavigate();
 
-    const [searchParams] = useSearchParams(); //this is to grab the sessionId and token from the url
-    const sessionId = searchParams.get("sessionId");
-    const token = searchParams.get("t");
-    // console.log(sessionId, token)
-    const navigate = useNavigate();
+  const [isPending, setIsPending] = useState(true);
+  const [message, setMessage] = useState("");
+  const [variant, setVariant] = useState("info");
 
-    const [isPending , setIsPending] = useState(true);
-    const [message, setMessage] = useState("");
-    const [variant, setVariant] = useState("info");
-      const [status, setStatus] = useState(""); // NEW state to track status
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const { status, message } = await verifyNewUserApi(token);
+        if (!mounted) return;
 
-
-    useEffect(()=> {
-        const verify = async ()=> {
-            const {status, message} = await verifyNewUserApi({ sessionId, token});
-            setStatus(status);
-            setVariant(status === "success" ? "success" : "danger");
-            setMessage(message);
-            setIsPending(false);
-        };
-      
-        //will try if both the sessionId and token are present
-
-        if(sessionId && token) {
-            verify();
+        if (status === "success") {
+          setVariant("success");
+          setMessage("Email verified successfully — you can log in now.");
         } else {
-            setStatus("error");
-            setMessage("Invalid or missing verification link");
-            setVariant("danger");
-            setIsPending(false);
-        };
-    }, [sessionId, token]);
-
-    useEffect(()=> {
-         if(status === "success") {
-            setTimeout(()=> {
-                navigate('/login');
-            }, 3000)
+          setVariant("danger");
+          setMessage(message || "Invalid or already verified.");
         }
-    }, [status, navigate]);
-        
+      } catch (e) {
+        if (!mounted) return;
+        setVariant("danger");
+        setMessage(e?.message || "Could not verify email. Please try again.");
+      } finally {
+        if (mounted) setIsPending(false);
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
+  }, [token]);
 
   return (
-    <div className='py-5 p-5 text-center'> 
-    {
-        isPending ? (
-            <>
-              <Spinner animation='border' variant='primary' />
-                  <div>Please wait, verifying your email .....</div>
-            </>
+    <Container className="py-5" style={{ maxWidth: 520 }}>
+      <div className="text-center">
+        <h3 className="mb-4">Verify your email</h3>
+
+        {isPending ? (
+          <>
+            <Spinner animation="border" variant="primary" />
+            <div className="mt-3">Please wait, verifying your email…</div>
+          </>
         ) : (
-            <Alert variant = {variant}>{message}</Alert>
-        )
-    }
-    </div>
+          <>
+            <Alert variant={variant} className="mt-2">
+              {message}
+            </Alert>
+            <div className="d-flex gap-2 justify-content-center mt-3">
+              <Button variant="primary" onClick={() => navigate("/login")}>
+                Go to Login
+              </Button>
+              <Button variant="outline-secondary" onClick={() => navigate("/")}>
+                Back to Home
+              </Button>
+            </div>
+          </>
+        )}
+      </div>
+    </Container>
   );
 };
+
+export default VerifyUser;
