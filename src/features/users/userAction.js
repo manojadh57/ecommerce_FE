@@ -13,14 +13,14 @@ export const userSignupAction = (userObj) => async () => {
 //fetch user data
 export const getUserDetailAction = () => async (dispatch) => {
   try {
-    // GET /auth/profile (private)
+    // GET /auth/profile 
     const res = await apiProcesser({
       method: "get",
       url: `${authEP}/profile`,
       isPrivate: true,
     });
 
-    // backend may return { user } or { data: { user } }
+    
     const user = res?.user ?? res?.data?.user ?? res?.data;
     if (user) dispatch(setUser(user));
     return user;

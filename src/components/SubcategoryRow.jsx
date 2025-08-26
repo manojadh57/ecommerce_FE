@@ -21,7 +21,7 @@ export default function SubcategoryRow({ subId, title, speed = 26 }) {
     if (!subId) return;
     (async () => {
       try {
-        // assuming backend filters by leaf category id with `category=`
+       
         const res = await fetch(
           `${BASE}products?category=${subId}&limit=16&sort=-createdAt`
         );
@@ -33,7 +33,7 @@ export default function SubcategoryRow({ subId, title, speed = 26 }) {
     })();
   }, [subId]);
 
-  // duplicate once so the marquee can loop seamlessly
+ 
   const loop = useMemo(
     () => (items.length ? [...items, ...items] : []),
     [items]

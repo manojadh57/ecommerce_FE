@@ -41,7 +41,7 @@ const Signup = () => {
         password: "",
         confirmPassword: "",
       });
-      // ⬇️ only change: go to verification page and echo the email
+      // only change: go to verification page and echo the email
       navigate(`/verify-email-sent?email=${encodeURIComponent(form.email)}`);
     }
   };

@@ -8,7 +8,7 @@ import {
   FaCcApplePay,
   FaCcPaypal,
   FaGooglePay,
-  FaCreditCard, // generic fallback icon
+  FaCreditCard, 
 } from "react-icons/fa";
 import { SiShopify } from "react-icons/si";
 

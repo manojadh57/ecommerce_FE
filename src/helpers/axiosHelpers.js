@@ -112,7 +112,7 @@ export const requestPassResetOTPApi = async (payload) => {
   const obj = {
     url: authEP + "/otp",
     method: "post",
-    data: payload, // use 'data' not 'payload' as per your apiProcesser
+    data: payload, 
     showToast: true,
   };
   return await apiProcesser(obj);
@@ -133,7 +133,7 @@ export const resetPassApi = async (payload) => {
 export const getAllCategories = () => apiProcesser({ url: categoriesEP });
 export const getCategoryById = (id) =>
   apiProcesser({ url: `${categoriesEP}/${id}` });
-// export const getSubCategories = (catId) => api.get(`/categories/${catId}/sub-categories`);
+
 
 //products//
 export const getAllProducts = (q = "") => apiProcesser({ url: productsEP + q });

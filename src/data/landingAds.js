@@ -1,5 +1,3 @@
-// Each item: { img, productId, alt }
-// productId routes directly; alt is for accessibility only.
 
 export const landingAds = [
   {

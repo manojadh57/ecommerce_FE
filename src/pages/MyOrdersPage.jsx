@@ -34,7 +34,7 @@ const imgUrl = (path) =>
     ? path
     : `${IMG_BASE}/${path}`.replace(/([^:]\/)\/+/g, "$1");
 
-// ✅ FIX: cents → plain number with 2 decimals, no currency symbol
+
 const formatMoney = (cents) =>
   ((Number(cents) || 0) / 100).toLocaleString(undefined, {
     minimumFractionDigits: 2,
@@ -140,7 +140,7 @@ export default function MyOrdersPage() {
             ? new Date(o.createdAt).toLocaleString()
             : "";
           const { variant, label, Icon } = statusMeta(o.status);
-          const total = formatMoney(o.totalAmount); // now correct (cents → 2-decimals, no $)
+          const total = formatMoney(o.totalAmount); 
           const lines = Array.isArray(o.products) ? o.products : [];
           const itemCount = lines.reduce(
             (sum, l) => sum + (Number(l?.quantity) || 0),
@@ -195,7 +195,7 @@ export default function MyOrdersPage() {
                 </div>
 
                 <div className="d-flex align-items-center gap-2">
-                  {/* ▼ per-order dropdown */}
+                  {/* per-order dropdown */}
                   <Dropdown align="end" className="order-menu">
                     <Dropdown.Toggle
                       variant="light"

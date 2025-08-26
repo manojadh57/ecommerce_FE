@@ -5,7 +5,7 @@ import {
   getProductsByCatId,
 } from "../../helpers/axiosHelpers";
 
-// ── Fetch list of products (optionally by category) ──
+// Fetch list of products 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async (categoryId = "", { rejectWithValue }) => {
@@ -21,7 +21,7 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
-// ── Fetch a single product by ID ──
+// Fetch a single product by ID 
 export const fetchSingleProduct = createAsyncThunk(
   "products/fetchSingleProduct",
   async (id, { rejectWithValue }) => {

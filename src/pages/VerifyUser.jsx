@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { verifyNewUserApi } from "../helpers/axiosHelpers.js";
 
 export const VerifyUser = () => {
-  const { token } = useParams(); // token from /verify-email/:token
+  const { token } = useParams(); 
   const navigate = useNavigate();
 
   const [isPending, setIsPending] = useState(true);

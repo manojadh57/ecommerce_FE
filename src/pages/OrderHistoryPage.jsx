@@ -12,7 +12,7 @@ import { useParams, useLocation, useNavigate } from "react-router-dom";
 
 const BASE = (import.meta.env.VITE_BASE_URL || "").replace(/\/?$/, "/");
 
-// cents → plain number with 2 decimals, no currency symbol
+
 const asAmount = (cents) =>
   ((Number(cents) || 0) / 100).toLocaleString(undefined, {
     minimumFractionDigits: 2,

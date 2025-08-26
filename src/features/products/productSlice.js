@@ -4,7 +4,7 @@ import { fetchProducts, fetchSingleProduct } from "./productsActions";
 const initialState = {
   items: [],
   selected: null,
-  status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
+  status: "idle", 
   error: null,
 };
 

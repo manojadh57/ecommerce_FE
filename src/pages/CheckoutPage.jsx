@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 import { useCart } from "../hooks/useCart";
 import "../styles/Checkout.css";
 
-// ⬇️ NEW: Stripe hooks + card field
+//  Stripe hooks + card field
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
 const BASE =
@@ -30,7 +30,7 @@ const CheckoutPage = () => {
   const navigate = useNavigate();
   const { items, cart, cartItems, clearCart } = useCart();
 
-  // ⬇️ NEW: Stripe context
+  //  Stripe context
   const stripe = useStripe();
   const elements = useElements();
 
@@ -91,7 +91,7 @@ const CheckoutPage = () => {
     country: customer.country,
   });
 
-  // ====== NEW payment flow ======
+  //NEW payment flow 
   const placeOrder = async (e) => {
     e.preventDefault();
 
@@ -148,7 +148,7 @@ const CheckoutPage = () => {
       if (init.status !== "success")
         throw new Error(init.message || "Init failed");
 
-      // 2) Confirm card payment with Stripe
+      // Confirm card payment with Stripe
       const card = elements.getElement(CardElement);
       const { error, paymentIntent } = await stripe.confirmCardPayment(
         init.clientSecret,

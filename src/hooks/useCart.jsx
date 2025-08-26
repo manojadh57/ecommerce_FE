@@ -9,7 +9,7 @@ export const CartProvider = ({ children }) => {
     } catch {
       return [];
     }
-  }); // [{ product, quantity }...]
+  }); 
 
   // persist to localStorage on change
   React.useEffect(() => {

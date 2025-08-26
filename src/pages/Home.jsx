@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import HeroAds from "../components/HeroAds.jsx";
 import SubcategoryRow from "../components/SubcategoryRow.jsx";
 import { landingAds } from "../data/landingAds.js";
-import "../styles/home.css"; // keep if you have shared styles; safe to remove if unused
+import "../styles/home.css"; 
 
 export default function Home() {
   // Get all sub-categories from the store and flatten them
@@ -17,7 +17,7 @@ export default function Home() {
 
   return (
     <>
-      {/* Row 1: 4-image advertisement slideshow */}
+      {/* 4-image advertisement slideshow */}
       <HeroAds items={landingAds} height={440} delayMs={3800} />
 
       {/* Rows 2+: ALL sub-categories with animated product strips */}

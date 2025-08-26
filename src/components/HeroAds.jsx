@@ -6,7 +6,7 @@ const BASE = (import.meta.env.VITE_BASE_URL || "").replace(/\/?$/, "/");
 
 export default function HeroAds({
   items = [],
-  // maximum height cap; the stage uses aspect-ratio 3/2 so your 1500x1000 shows fully
+
   maxHeight = 560,
   delayMs = 50000,
   radius = 22,
