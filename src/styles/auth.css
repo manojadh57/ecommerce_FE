@@ -1,0 +1,42 @@
+/* Page background */
+.auth-bg {
+  background: linear-gradient(180deg, #f6f8fb 0%, #ffffff 100%);
+}
+
+/* Cards */
+.auth-card,
+.auth-hero {
+  border-radius: 18px;
+}
+
+/* Brand tag in hero */
+.brand-badge {
+  display: inline-block;
+  background: #111827;
+  color: #fff;
+  font-size: 12px;
+  letter-spacing: .04em;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+/* List group reset for neat bullets */
+.auth-list .list-group-item {
+  background: transparent;
+  border: 0;
+}
+
+/* Inputs: softer focus ring to match site feel */
+.input-group .form-control:focus {
+  box-shadow: 0 0 0 .2rem rgba(13, 110, 253, .15);
+}
+
+/* Tweak primary button to align with your CTA look */
+.btn-primary {
+  --bs-btn-bg: #0d6efd;
+  --bs-btn-border-color: #0d6efd;
+  --bs-btn-hover-bg: #0b5ed7;
+  --bs-btn-hover-border-color: #0a58ca;
+  --bs-btn-active-bg: #0a58ca;
+  --bs-btn-active-border-color: #0a53be;
+}
