@@ -53,7 +53,7 @@ const ProductCard = ({ product }) => {
   const price = Number(product.price || 0);
   const formatted =
     Math.round(price * 100) % 100 === 0
-      ? price.toLocaleString() 
+      ? price.toLocaleString()
       : price.toLocaleString(undefined, {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
